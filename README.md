@@ -6,8 +6,8 @@ A Unity Editor tool that automatically isolates UI canvases in the Scene View fo
 
 - **Automatic UI Detection**: Detects when you select Canvas objects or UI elements
 - **Smart Canvas Framing**: Frames the nearest canvas to show UI elements in proper context
-- **Layer Isolation**: Shows only the UI layer and hides 3D objects when editing UI
-- **2D Mode Switching**: Automatically switches to orthographic 2D mode for UI editing
+- **Smart Layer Isolation**: Shows only UI layer for screen space canvases, shows canvas layer for world space canvases
+- **Smart View Mode**: Switches to 2D orthographic mode for screen space canvases, keeps 3D perspective for world space canvases
 - **Configurable Settings**: Support for different canvas types (Screen Space Overlay, Screen Space Camera, World Space)
 - **Performance Optimized**: Component caching and debouncing for smooth operation
 - **Undo Support**: All changes can be undone with Ctrl+Z
@@ -64,7 +64,7 @@ settings.affectAllSceneViews = true;
 - **Canvas Types**:
   - `handleScreenSpaceOverlayCanvases` (default: true)
   - `handleScreenSpaceCameraCanvases` (default: false)
-  - `handleWorldSpaceCanvases` (default: false)
+  - `handleWorldSpaceCanvases` (default: true)
 
 - **Scene View Options**:
   - `affectAllSceneViews` (default: false)

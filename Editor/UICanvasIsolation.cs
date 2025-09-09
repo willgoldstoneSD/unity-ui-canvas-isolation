@@ -7,7 +7,7 @@ using System;
 public class UICanvasIsolationSettings
 {
     [Header("Canvas Types")]
-    public bool handleWorldSpaceCanvases = false;
+    public bool handleWorldSpaceCanvases = true;
     public bool handleScreenSpaceCameraCanvases = false;
     public bool handleScreenSpaceOverlayCanvases = true;
     
@@ -26,8 +26,9 @@ public static class UICanvasIsolation
 {
     private const int UILayer = 5;
     private static bool wasLastSelectionUI = false;
-    private static int cachedLayerMask = ~0;
+    private static int cachedLayerMask = ~0; // Initialize to show all layers
     private static bool isPlayModeActive = false;
+    private static bool hasValidLayerCache = false;
     
     // Debouncing for selection changes
     private static double lastSelectionTime;
@@ -204,18 +205,38 @@ public static class UICanvasIsolation
     private static void SwitchToUIContext(Canvas canvas)
     {
         CacheCurrentLayerMask();
-        EnableUILayerOnly();
+        
+        // For world space canvases, show the canvas layer instead of UI layer only
+        if (canvas.renderMode == RenderMode.WorldSpace)
+        {
+            EnableCanvasLayerOnly(canvas);
+        }
+        else
+        {
+            EnableUILayerOnly();
+        }
+        
         EnableSceneViewSkyboxAndPostProcessing(false);
         SetSceneViewTo2DAndFrameSelection(canvas);
         
-        // Frame the selected canvas again after 2D mode is set up for better zoom
+        // Frame the selected canvas again after mode is set up for better zoom
         FrameSelectedObject();
     }
 
     private static void SwitchToChildUIContext(GameObject child, Canvas parentCanvas)
     {
         CacheCurrentLayerMask();
-        EnableUILayerOnly();
+        
+        // For world space canvases, show the canvas layer instead of UI layer only
+        if (parentCanvas.renderMode == RenderMode.WorldSpace)
+        {
+            EnableCanvasLayerOnly(parentCanvas);
+        }
+        else
+        {
+            EnableUILayerOnly();
+        }
+        
         EnableSceneViewSkyboxAndPostProcessing(false);
 
         // Temporarily focus on the parent canvas for framing
@@ -225,7 +246,7 @@ public static class UICanvasIsolation
         // Restore selection to the child object
         Selection.activeGameObject = child;
         
-        // Frame the selected child object after 2D mode is set up
+        // Frame the selected child object after mode is set up
         FrameSelectedObject();
     }
 
@@ -303,6 +324,18 @@ public static class UICanvasIsolation
             Debug.Log("UI Canvas Isolation state force restored");
         }
     }
+    
+    /// <summary>
+    /// Reset the layer mask cache to show all layers. Useful for debugging layer issues.
+    /// </summary>
+    public static void ResetLayerMaskCache()
+    {
+        cachedLayerMask = ~0; // Show all layers
+        hasValidLayerCache = false;
+        Tools.visibleLayers = cachedLayerMask;
+        SceneView.RepaintAll();
+        Debug.Log("Layer mask cache reset to show all layers");
+    }
 
     private static bool IsScreenSpaceOverlayCanvas(GameObject obj, out Canvas canvas)
     {
@@ -340,7 +373,11 @@ public static class UICanvasIsolation
     {
         SafeSceneViewOperation(sceneView =>
         {
-            Enable2DMode(sceneView);
+            // Only enable 2D mode for screen space canvases
+            if (canvas.renderMode != RenderMode.WorldSpace)
+            {
+                Enable2DMode(sceneView);
+            }
 
             if (canvas.TryGetComponent<RectTransform>(out var rectTransform))
             {
@@ -398,14 +435,26 @@ public static class UICanvasIsolation
         Tools.visibleLayers = 1 << UILayer;
         SceneView.RepaintAll();
     }
+    
+    private static void EnableCanvasLayerOnly(Canvas canvas)
+    {
+        // Register undo operation for layer changes
+        Undo.RegisterCompleteObjectUndo(SceneView.lastActiveSceneView, "UI Canvas Isolation - Show Canvas Layer Only");
+        
+        // Show only the layer that the world space canvas is on
+        int canvasLayer = canvas.gameObject.layer;
+        Tools.visibleLayers = 1 << canvasLayer;
+        SceneView.RepaintAll();
+        Debug.Log($"Showing only canvas layer: {canvasLayer} for world space canvas: {canvas.name}");
+    }
 
     private static void CacheCurrentLayerMask()
     {
-        if (!wasLastSelectionUI)
-        {
-            cachedLayerMask = Tools.visibleLayers;
-            Debug.Log($"Cached layer mask: {cachedLayerMask}");
-        }
+        // Always cache the current layer mask when entering UI mode
+        // This ensures we capture the state right before switching to UI isolation
+        cachedLayerMask = Tools.visibleLayers;
+        hasValidLayerCache = true;
+        Debug.Log($"Cached layer mask: {cachedLayerMask} (wasLastSelectionUI: {wasLastSelectionUI})");
     }
 
     private static void RestoreCachedLayerMask()
@@ -413,8 +462,16 @@ public static class UICanvasIsolation
         // Register undo operation for layer changes
         Undo.RegisterCompleteObjectUndo(SceneView.lastActiveSceneView, "UI Canvas Isolation - Restore Layer Mask");
         
+        // Safety check: if we don't have a valid cache or it's invalid, use a sensible default
+        if (!hasValidLayerCache || cachedLayerMask == (1 << UILayer))
+        {
+            cachedLayerMask = ~0; // Show all layers as fallback
+            Debug.LogWarning($"Invalid or missing cached layer mask, using fallback: {cachedLayerMask}");
+        }
+        
         Tools.visibleLayers = cachedLayerMask;
         SceneView.RepaintAll();
+        hasValidLayerCache = false; // Reset the cache flag
         Debug.Log($"Restored layer mask: {cachedLayerMask}");
     }
 
