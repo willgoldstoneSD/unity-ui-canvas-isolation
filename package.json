@@ -22,12 +22,12 @@
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "https://github.com/willgoldstone/unity-ui-canvas-isolation.git"
+    "url": "https://github.com/willgoldstoneSD/unity-ui-canvas-isolation.git"
   },
   "bugs": {
-    "url": "https://github.com/willgoldstone/unity-ui-canvas-isolation/issues"
+    "url": "https://github.com/willgoldstoneSD/unity-ui-canvas-isolation/issues"
   },
-  "homepage": "https://github.com/willgoldstone/unity-ui-canvas-isolation#readme",
+  "homepage": "https://github.com/willgoldstoneSD/unity-ui-canvas-isolation#readme",
   "dependencies": {},
   "type": "tool"
 }

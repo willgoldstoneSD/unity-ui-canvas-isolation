@@ -7,7 +7,7 @@ Add this line to your project's `Packages/manifest.json`:
 ```json
 {
   "dependencies": {
-    "com.willgoldstone.ui-canvas-isolation": "https://github.com/willgoldstone/unity-ui-canvas-isolation.git"
+    "com.willgoldstone.ui-canvas-isolation": "https://github.com/willgoldstoneSD/unity-ui-canvas-isolation.git"
   }
 }
 ```
@@ -29,7 +29,7 @@ Add this line to your project's `Packages/manifest.json`:
 
 1. Open Unity's Package Manager (Window → Package Manager)
 2. Click the "+" button and select "Add package from git URL"
-3. Enter: `https://github.com/willgoldstone/unity-ui-canvas-isolation.git`
+3. Enter: `https://github.com/willgoldstoneSD/unity-ui-canvas-isolation.git`
 4. Click "Add"
 
 ## Verification
