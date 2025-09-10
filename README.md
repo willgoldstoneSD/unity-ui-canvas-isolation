@@ -1,4 +1,4 @@
-# UI Canvas Isolation
+# Unity UI (UGUI) Canvas Isolation
 
 A Unity Editor tool that automatically isolates UI canvases in the Scene View for better UI development workflow.
 
