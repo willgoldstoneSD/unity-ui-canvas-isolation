@@ -1,6 +1,6 @@
 {
   "name": "com.willgoldstone.ui-canvas-isolation",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "displayName": "UI Canvas Isolation",
   "description": "A Unity Editor tool that automatically isolates UI canvases in the Scene View for better UI development workflow. When you select a UI element, it automatically switches to 2D mode, shows only the UI layer, and frames the nearest canvas for optimal editing context.",
   "unity": "2022.3",
@@ -29,14 +29,6 @@
   },
   "homepage": "https://github.com/willgoldstone/unity-ui-canvas-isolation#readme",
   "dependencies": {},
-  "samples": [
-    {
-      "displayName": "UI Canvas Isolation Demo",
-      "description": "Example scene demonstrating the UI Canvas Isolation tool with various canvas types and UI elements.",
-      "path": "Samples~/Demo",
-      "interactiveImport": true
-    }
-  ],
   "type": "tool"
 }
 

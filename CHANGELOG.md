@@ -5,6 +5,24 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.0.1] - 2024-12-10
+
+### Fixed
+- Fixed namespace conflicts with `Canvas` type references
+- Resolved compilation errors in safe mode
+- Improved layer restoration reliability
+- Fixed occasional isometric view persistence issues
+
+### Changed
+- Removed demo scene references for cleaner package
+- Updated all `Canvas` references to use fully qualified `UnityEngine.Canvas`
+- Enhanced error handling and safety checks
+
+### Technical
+- Added proper Assembly Definition file
+- Implemented professional namespace structure
+- Improved memory management and cache validation
+
 ## [1.0.0] - 2024-01-XX
 
 ### Added
@@ -19,7 +37,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Multi-scene view support
 - Error handling and safe scene view operations
 - Memory management and cache cleanup
-- Comprehensive documentation and samples
+- Comprehensive documentation
 
 ### Features
 - **Smart Canvas Detection**: Finds the nearest canvas in the hierarchy

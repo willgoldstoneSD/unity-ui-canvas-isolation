@@ -7,7 +7,7 @@
   "packages": {
     "com.willgoldstone.ui-canvas-isolation": {
       "name": "com.willgoldstone.ui-canvas-isolation",
-      "version": "1.0.0",
+      "version": "1.0.1",
       "displayName": "UI Canvas Isolation",
       "description": "A Unity Editor tool that automatically isolates UI canvases in the Scene View for better UI development workflow.",
       "unity": "2022.3",

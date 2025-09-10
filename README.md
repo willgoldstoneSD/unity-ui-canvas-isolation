@@ -15,12 +15,6 @@ A Unity Editor tool that automatically isolates UI canvases in the Scene View fo
 
 ## Installation
 
-### Via Package Manager (Scoped Registry)
-
-1. Open Unity's Package Manager (Window → Package Manager)
-2. Click the "+" button and select "Add package from git URL"
-3. Enter: `https://github.com/willgoldstone/unity-ui-canvas-isolation.git`
-
 ### Via Git URL
 
 Add this line to your `Packages/manifest.json`:
@@ -32,6 +26,12 @@ Add this line to your `Packages/manifest.json`:
   }
 }
 ```
+
+### Via Package Manager UI
+
+1. Open Unity's Package Manager (Window → Package Manager)
+2. Click the "+" button and select "Add package from git URL"
+3. Enter: `https://github.com/willgoldstone/unity-ui-canvas-isolation.git`
 
 ## Usage
 
