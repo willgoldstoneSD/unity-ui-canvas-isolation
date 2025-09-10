@@ -37,7 +37,7 @@ public static class UICanvasIsolation
     private const double SELECTION_DEBOUNCE_TIME = 0.1; // 100ms
     
     // Component caching to avoid repeated lookups
-    private static readonly Dictionary<GameObject, Canvas> canvasCache = new Dictionary<GameObject, Canvas>();
+    private static readonly Dictionary<GameObject, UnityEngine.Canvas> canvasCache = new Dictionary<GameObject, UnityEngine.Canvas>();
     
     // Store previous orthographic state per scene view
     private static readonly Dictionary<SceneView, bool> previousOrthographicStates = new Dictionary<SceneView, bool>();
@@ -121,12 +121,12 @@ public static class UICanvasIsolation
         // Handle UI object selection
         if (isUIElement)
         {
-            if (IsSupportedCanvas(selected, out Canvas canvas))
+            if (IsSupportedCanvas(selected, out UnityEngine.Canvas canvas))
             {
                 SwitchToUIContext(canvas);
                 wasLastSelectionUI = true;
             }
-            else if (IsChildOfSupportedCanvas(selected, out Canvas parentCanvas))
+            else if (IsChildOfSupportedCanvas(selected, out UnityEngine.Canvas parentCanvas))
             {
                 SwitchToChildUIContext(selected, parentCanvas);
                 wasLastSelectionUI = true;
@@ -204,7 +204,7 @@ public static class UICanvasIsolation
         }
     }
 
-    private static void SwitchToUIContext(Canvas canvas)
+    private static void SwitchToUIContext(UnityEngine.Canvas canvas)
     {
         CacheCurrentLayerMask();
         
@@ -225,7 +225,7 @@ public static class UICanvasIsolation
         FrameSelectedObject();
     }
 
-    private static void SwitchToChildUIContext(GameObject child, Canvas parentCanvas)
+    private static void SwitchToChildUIContext(GameObject child, UnityEngine.Canvas parentCanvas)
     {
         CacheCurrentLayerMask();
         
@@ -257,11 +257,11 @@ public static class UICanvasIsolation
         return GetCanvas(obj) != null;
     }
     
-    private static Canvas GetCanvas(GameObject obj)
+    private static UnityEngine.Canvas GetCanvas(GameObject obj)
     {
         if (obj == null) return null;
         
-        Canvas canvas = null;
+        UnityEngine.Canvas canvas = null;
         
         if (settings.enableComponentCaching && !canvasCache.TryGetValue(obj, out canvas))
         {
@@ -282,10 +282,10 @@ public static class UICanvasIsolation
         return canvas;
     }
     
-    private static Canvas GetNearestCanvas(GameObject obj)
+    private static UnityEngine.Canvas GetNearestCanvas(GameObject obj)
     {
         // First check if the object itself has a Canvas component
-        var canvas = obj.GetComponent<Canvas>();
+        var canvas = obj.GetComponent<UnityEngine.Canvas>();
         if (canvas != null) return canvas;
         
         // For UI elements, we want to find the nearest canvas that actually contains this UI element
@@ -293,7 +293,7 @@ public static class UICanvasIsolation
         var current = obj.transform.parent;
         while (current != null)
         {
-            canvas = current.GetComponent<Canvas>();
+            canvas = current.GetComponent<UnityEngine.Canvas>();
             if (canvas != null)
             {
                 // Found a canvas - this is the nearest one containing our UI element
@@ -339,19 +339,19 @@ public static class UICanvasIsolation
         Debug.Log("Layer mask cache reset to show all layers");
     }
 
-    private static bool IsScreenSpaceOverlayCanvas(GameObject obj, out Canvas canvas)
+    private static bool IsScreenSpaceOverlayCanvas(GameObject obj, out UnityEngine.Canvas canvas)
     {
         canvas = GetCanvas(obj);
         return canvas != null && canvas.renderMode == RenderMode.ScreenSpaceOverlay && settings.handleScreenSpaceOverlayCanvases;
     }
 
-    private static bool IsChildOfScreenSpaceOverlayCanvas(GameObject obj, out Canvas parentCanvas)
+    private static bool IsChildOfScreenSpaceOverlayCanvas(GameObject obj, out UnityEngine.Canvas parentCanvas)
     {
         parentCanvas = GetCanvas(obj);
         return parentCanvas != null && parentCanvas.renderMode == RenderMode.ScreenSpaceOverlay && settings.handleScreenSpaceOverlayCanvases;
     }
     
-    private static bool IsSupportedCanvas(GameObject obj, out Canvas canvas)
+    private static bool IsSupportedCanvas(GameObject obj, out UnityEngine.Canvas canvas)
     {
         canvas = GetCanvas(obj);
         if (canvas == null) return false;
@@ -361,7 +361,7 @@ public static class UICanvasIsolation
                (canvas.renderMode == RenderMode.WorldSpace && settings.handleWorldSpaceCanvases);
     }
     
-    private static bool IsChildOfSupportedCanvas(GameObject obj, out Canvas parentCanvas)
+    private static bool IsChildOfSupportedCanvas(GameObject obj, out UnityEngine.Canvas parentCanvas)
     {
         parentCanvas = GetCanvas(obj);
         if (parentCanvas == null) return false;
@@ -371,7 +371,7 @@ public static class UICanvasIsolation
                (parentCanvas.renderMode == RenderMode.WorldSpace && settings.handleWorldSpaceCanvases);
     }
 
-    private static void SetSceneViewTo2DAndFrameSelection(Canvas canvas)
+    private static void SetSceneViewTo2DAndFrameSelection(UnityEngine.Canvas canvas)
     {
         SafeSceneViewOperation(sceneView =>
         {
@@ -438,7 +438,7 @@ public static class UICanvasIsolation
         SceneView.RepaintAll();
     }
     
-    private static void EnableCanvasLayerOnly(Canvas canvas)
+    private static void EnableCanvasLayerOnly(UnityEngine.Canvas canvas)
     {
         // Register undo operation for layer changes
         Undo.RegisterCompleteObjectUndo(SceneView.lastActiveSceneView, "UI Canvas Isolation - Show Canvas Layer Only");
