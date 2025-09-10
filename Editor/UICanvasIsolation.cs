@@ -3,6 +3,8 @@ using UnityEngine;
 using System.Collections.Generic;
 using System;
 
+namespace WillGoldstone.UI.Canvas.Isolation
+{
 [System.Serializable]
 public class UICanvasIsolationSettings
 {
@@ -536,4 +538,5 @@ public static class UICanvasIsolation
             OnSelectionChanged();
         }
     }
+}
 }

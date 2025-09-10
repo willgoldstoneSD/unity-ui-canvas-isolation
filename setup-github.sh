@@ -42,3 +42,4 @@ echo "     \"com.willgoldstone.ui-canvas-isolation\": \"https://github.com/willg
 echo ""
 echo "✅ Package setup complete!"
 echo "📖 See README.md for detailed usage instructions"
+

@@ -34,3 +34,4 @@ jobs:
         github_token: ${{ secrets.GITHUB_TOKEN }}
         publish_dir: ./Packages/com.willgoldstone.ui-canvas-isolation/docs
         destination_dir: .
+

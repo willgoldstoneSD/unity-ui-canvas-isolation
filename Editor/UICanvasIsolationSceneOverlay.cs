@@ -3,6 +3,8 @@ using UnityEditor.Overlays;
 using UnityEngine;
 using UnityEngine.UIElements;
 
+namespace WillGoldstone.UI.Canvas.Isolation
+{
 [Overlay(typeof(SceneView), "UI Canvas Isolation", defaultDisplay = true)]
 public class UICanvasIsolationSceneOverlay : Overlay
 {
@@ -54,4 +56,5 @@ public class UICanvasIsolationSceneOverlay : Overlay
     {
         return isEnabled;
     }
+}
 }

@@ -32,3 +32,4 @@ var settings = UICanvasIsolation.Settings;
 settings.handleScreenSpaceCameraCanvases = true;
 settings.handleWorldSpaceCanvases = true;
 ```
+

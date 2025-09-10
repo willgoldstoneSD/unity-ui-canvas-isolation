@@ -33,8 +33,10 @@
     {
       "displayName": "UI Canvas Isolation Demo",
       "description": "Example scene demonstrating the UI Canvas Isolation tool with various canvas types and UI elements.",
-      "path": "Samples~/Demo"
+      "path": "Samples~/Demo",
+      "interactiveImport": true
     }
   ],
   "type": "tool"
 }
+
